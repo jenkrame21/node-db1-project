@@ -3,8 +3,9 @@ const db = require("../../data/dbConfig.js");
 module.exports = {
     get,
     getById,
-    createAccount,
-    updateAccount
+    create,
+    update,
+    remove
 }
 
 // GET - Get all accounts
@@ -18,7 +19,7 @@ function getById(id) {
 }
 
 // POST - Create new account
-function createAccount(account) {
+function create(account) {
     return db("accounts").insert(account)
         .then(([id]) => {
             return db("accounts").where("id", id).first();
@@ -26,7 +27,7 @@ function createAccount(account) {
 }
 
 // PUT - Update account
-function updateAccount(id, account) {
+function update(id, account) {
     const accountId = id
     return db("accounts").where("id", id).update(account)
         .then(() => {
@@ -34,7 +35,10 @@ function updateAccount(id, account) {
         });
 }
 
-// // DELETE - Delete account
-// function removeAccount() {
-
-// }
+// DELETE - Delete account
+function remove(id) {
+    return db("accounts").where("id", id).del()
+        .then(() => {
+            return db("accounts");
+        })
+}

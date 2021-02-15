@@ -1,7 +1,8 @@
 const Account = require('../accounts/account-model.js');
 
 module.exports = {
-    checkId
+    checkId,
+    checkPayload
 }
 
 // Middleware
@@ -19,5 +20,12 @@ async function checkId(req, res, next) {
 }
 
 function checkPayload(req, res, next) {
-
+    const { name, budget } = req.body;
+    if (name && budget) {
+        next();
+    } else {
+        res.status(400).json({
+            message: "Name and budget required"
+        });
+    }
 }
